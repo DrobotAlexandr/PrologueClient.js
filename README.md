@@ -10,14 +10,14 @@ npm i prologue-client
 </pre>
 
 <pre class="brush:as3;">
-import PrologueClient from &#39;prologue-client&#39;
+import prologueClient from &#39;prologue-client&#39;
 
 </pre>
 
 <h5><strong>Инициализация и конфигурация:</strong></h5>
 
 <pre class="brush:as3;">
-PrologueClient.init(
+prologueClient.init(
 &nbsp; &nbsp; {
 &nbsp; &nbsp; &nbsp; &nbsp; &#39;mode&#39;: &#39;demo&#39;,
 &nbsp; &nbsp; &nbsp; &nbsp; &#39;servers&#39;: {
