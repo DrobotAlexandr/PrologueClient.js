@@ -1,6 +1,6 @@
 {
   "name": "prologue-client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "JavaScript Http client",
   "main": "src/PrologueClient.js",
   "scripts": {
@@ -15,5 +15,5 @@
   "bugs": {
     "url": "https://github.com/DrobotAlexandr/PrologueClient/issues"
   },
-  "homepage": "https://github.com/DrobotAlexandr/PrologueClient#readme"
+  "homepage": "http://frontend.prologue-framework.ru/course/client-server.html"
 }

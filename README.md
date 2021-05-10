@@ -35,77 +35,8 @@ PrologueClient.init(
 
 </pre>
 
-<p><strong>Параметры:</strong></p>
+<br>
 
-<table border="1" cellpadding="1" cellspacing="1" style="width:100%">
-	<tbody>
-		<tr>
-			<td>Параметр</td>
-			<td>Описание</td>
-			<td>Возможные значения</td>
-		</tr>
-		<tr>
-			<td>mode</td>
-			<td>Режим работы клиента</td>
-			<td>
-			<table border="1" cellpadding="1" cellspacing="1" style="width:99%">
-				<tbody>
-					<tr>
-						<td>demo</td>
-						<td>Демо-режим. Будет использован демо-сервер.</td>
-					</tr>
-					<tr>
-						<td>work</td>
-						<td>Рабочий режим. Будет использован реальный back-end сервер.</td>
-					</tr>
-				</tbody>
-			</table>
-			</td>
-		</tr>
-		<tr>
-			<td>servers</td>
-			<td>Сервера</td>
-			<td>
-			<table border="1" cellpadding="1" cellspacing="1" style="width:99%">
-				<tbody>
-					<tr>
-						<td>demo</td>
-						<td>http путь к демо-серверу.</td>
-					</tr>
-					<tr>
-						<td>work</td>
-						<td>http&nbsp;путь к реальному&nbsp;back-end серверу.</td>
-					</tr>
-				</tbody>
-			</table>
-			</td>
-		</tr>
-		<tr>
-			<td>appRoutes</td>
-			<td>Ключевые маршруты приложения</td>
-			<td>
-			<table border="1" cellpadding="1" cellspacing="1" style="width:99%">
-				<tbody>
-					<tr>
-						<td>mainPage</td>
-						<td>Путь к главной странице</td>
-						<td>Обязательно</td>
-					</tr>
-					<tr>
-						<td>authorizationPage</td>
-						<td>Путь к странице авторизации</td>
-						<td>Если есть</td>
-					</tr>
-					<tr>
-						<td>userPersonalPage</td>
-						<td>Путь к странице после успешной авторизации</td>
-						<td>Если есть</td>
-					</tr>
-				</tbody>
-			</table>
-			</td>
-		</tr>
-	</tbody>
-</table>
-
-<p>&nbsp;</p>
+<a href="https://frontend.prologue-framework.ru/course/client-server.html" target="_blank">
+	https://frontend.prologue-framework.ru/course/client-server.html
+</a>
