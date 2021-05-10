@@ -1,16 +1,23 @@
 <p>В качестве клиента,&nbsp;для работы связки клиент-сервер, будем использовать&nbsp;PrologueClient&nbsp;<img alt="laugh" src="http://frontend.prologue-framework.ru/Prologue/components/editors/ckeditor/ckeditor/plugins/smiley/images/teeth_smile.png" style="height:23px; width:23px" title="laugh" /></p>
 
-<h5><strong>Подключение:</strong></h5>
+<h2><strong>Установка:</strong></h2>
+
+<p><strong>NPM</strong></p>
 
 <pre class="brush:as3;">
-&lt;script type=&quot;text/javascript&quot; src=&quot;PrologueClient.js&quot;&gt;&lt;/script&gt;
+npm i prologue-client
+
+</pre>
+
+<pre class="brush:as3;">
+import PrologueClient from &#39;prologue-client&#39;
 
 </pre>
 
 <h5><strong>Инициализация и конфигурация:</strong></h5>
 
 <pre class="brush:as3;">
-$httpClient = PrologueClient.init(
+PrologueClient.init(
 &nbsp; &nbsp; {
 &nbsp; &nbsp; &nbsp; &nbsp; &#39;mode&#39;: &#39;demo&#39;,
 &nbsp; &nbsp; &nbsp; &nbsp; &#39;servers&#39;: {
@@ -102,7 +109,3 @@ $httpClient = PrologueClient.init(
 </table>
 
 <p>&nbsp;</p>
-
-<blockquote>
-<p>После инициализации необходимо использовать глобальный объект&nbsp;<strong>$httpClient</strong> для работы с методами клиента.</p>
-</blockquote>

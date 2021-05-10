@@ -1,13 +1,18 @@
+'use strict';
+
+let $prologueClientAppData = false;
+let $prologueClientUserData = {};
+let $prologueClientConfig = {};
+
 let PrologueClient = {
 
     init: function (params) {
-        $prologueClientAppData = false;
-        $prologueClientUserData = {
+         $prologueClientUserData = {
             'id': 0,
             'isAuth': 0,
             'authToken': ''
         };
-        $prologueClientConfig = params;
+         $prologueClientConfig = params;
         return this;
     },
 
@@ -49,7 +54,7 @@ let PrologueClient = {
         function handleData(data) {
 
             data.authorization = {
-                'session' : PrologueClient.loader.getSessionData(),
+                'session': PrologueClient.loader.getSessionData(),
                 'userToken': PrologueClient.passport.getUserToken()
             };
 
@@ -893,3 +898,4 @@ let PrologueClient = {
 
 };
 
+module.exports = PrologueClient;
