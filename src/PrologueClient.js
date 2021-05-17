@@ -1,18 +1,18 @@
 'use strict';
 
-let $prologueClientAppData = false;
+let $prologueClientAppData = {};
 let $prologueClientUserData = {};
 let $prologueClientConfig = {};
 
 let PrologueClient = {
 
     init: function (params) {
-         $prologueClientUserData = {
+        $prologueClientUserData = {
             'id': 0,
             'isAuth': 0,
             'authToken': ''
         };
-         $prologueClientConfig = params;
+        $prologueClientConfig = params;
         return this;
     },
 
@@ -787,14 +787,14 @@ let PrologueClient = {
 
     loader: {
 
-        loadApp: function (params) {
+        loadApp: function (params, callBack) {
 
             if (!params.route) {
                 params.route = 'MainModule:loadApp';
             }
 
             if (!params.timeOut) {
-                params.timeOut = 1000;
+                params.timeOut = 100;
             }
 
             generateSessionCode();
@@ -809,6 +809,8 @@ let PrologueClient = {
                         PrologueClient.passport.setUserData(
                             serverData.app.userData
                         );
+
+                        callBack(serverData.app);
                     }
 
                 });
@@ -844,7 +846,7 @@ let PrologueClient = {
             return data;
         },
 
-        ping: function (params) {
+        ping: function (params, callBack) {
 
             if (!params.route) {
                 params.route = 'MainModule:ping';
@@ -861,6 +863,8 @@ let PrologueClient = {
                     PrologueClient.passport.setUserData(
                         serverData.state.userData
                     );
+
+                    callBack(serverData);
 
                 });
 
@@ -897,5 +901,6 @@ let PrologueClient = {
     }
 
 };
+
 
 module.exports = PrologueClient;
