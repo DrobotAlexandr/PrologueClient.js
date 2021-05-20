@@ -86,7 +86,7 @@ let PrologueClient = {
 
         if (server.indexOf('rest-connector') + 1) {
             path = path.replace(':', '/?action=');
-        } else if (server.indexOf('/server/api/') + 1) {
+        } else if (server.indexOf('localhost') + 1) {
             path = path.replace(':', '/') + '.json';
         }
 
@@ -101,7 +101,14 @@ let PrologueClient = {
         let config = PrologueClient.getConfig();
 
         if (config.mode === 'demo') {
-            return config.server.demo;
+
+            let demoServer = config.server.demo;
+
+            if (window.location.hostname === 'localhost' && demoServer === '/api/') {
+                demoServer = 'http://localhost:3000' + demoServer;
+            }
+
+            return demoServer;
         }
         else if (config.mode === 'work') {
             return config.server.work;
@@ -976,7 +983,6 @@ let PrologueClient = {
 
     }
 };
-
 
 
 module.exports = PrologueClient;
