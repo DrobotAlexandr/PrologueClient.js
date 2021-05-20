@@ -53,12 +53,19 @@ let PrologueClient = {
 
         function handleData(data) {
 
-            data.authorization = {
-                'session': PrologueClient.loader.getSessionData(),
-                'userToken': PrologueClient.passport.getUserToken()
-            };
+            let device = PrologueClient.device.getClientEnvironment();
 
-            data.device = PrologueClient.device.getClientEnvironment();
+            data.client = {
+                'id': device.id,
+                'name': device.name,
+                'type': device.type,
+                'authorization': {
+                    'session': PrologueClient.loader.getSessionData(),
+                    'userToken': PrologueClient.passport.getUserToken()
+                },
+
+                'device': device
+            };
 
             return data;
 
@@ -75,9 +82,13 @@ let PrologueClient = {
 
     getApiUrl: function (path) {
 
-        path = path.replace(':', '/?action=');
-
         let server = this.getServer() + '!';
+
+        if (server.indexOf('rest-connector') + 1) {
+            path = path.replace(':', '/?action=');
+        } else if (server.indexOf('/server/api/') + 1) {
+            path = path.replace(':', '/') + '.json';
+        }
 
         server = server.replace('/!', '');
         server = server.replace('!', '');
@@ -680,11 +691,9 @@ let PrologueClient = {
             }
 
             return {
-                'device': {
-                    'id': PrologueClient.md5(getId()),
-                    'name': getDeviceName(),
-                    'type': getPlatform(),
-                },
+                'id': PrologueClient.md5(getId()),
+                'name': getDeviceName(),
+                'type': getPlatform(),
                 'browser': {
                     'name': getBrowser().name,
                     'version': getBrowser().version
@@ -699,6 +708,7 @@ let PrologueClient = {
                     'timeZone': getTimeZone(),
                     'time': getTime()
                 },
+                'theme': PrologueClient.appInterface.theme.getAppTheme(),
                 'http': {
                     'domain': getDomain(),
                     'url': getUrl()
@@ -898,9 +908,75 @@ let PrologueClient = {
         }
 
 
-    }
+    },
 
+    appInterface: {
+
+        theme: {
+
+            setAppTheme: function (params) {
+
+                if (params.themeCode) {
+
+                    localStorage.setItem('__theme', params.themeCode);
+
+                    return true;
+
+                } else {
+                    return false;
+                }
+            },
+
+            getAppTheme: function () {
+
+                let theme = localStorage.__theme;
+
+                if (!theme) {
+                    theme = PrologueClient.appInterface.theme.getDeviceTheme();
+                }
+
+                return theme;
+
+            },
+
+            getDeviceTheme: function () {
+
+                let theme = 'light';
+
+                if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                    theme = 'dark';
+                }
+
+                return theme;
+
+            },
+
+            listenChangesTheme: function (callBack) {
+
+                let theme = PrologueClient.appInterface.theme.getAppTheme();
+                let newTheme = '';
+
+                callBack(theme);
+
+                setInterval(() => {
+
+                    newTheme = PrologueClient.appInterface.theme.getAppTheme();
+
+                    if (theme !== PrologueClient.appInterface.theme.getAppTheme()) {
+
+                        theme = newTheme;
+
+                        callBack(theme);
+                    }
+
+                }, 100);
+
+            }
+        }
+
+    }
 };
+
 
 
 module.exports = PrologueClient;
