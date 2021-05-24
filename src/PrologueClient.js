@@ -61,7 +61,7 @@ let PrologueClient = {
                 'type': device.type,
                 'authorization': {
                     'session': PrologueClient.loader.getSessionData(),
-                    'userToken': PrologueClient.passport.getUserToken()
+                    'userAccessToken': PrologueClient.passport.getUserAccessToken()
                 },
 
                 'device': device
@@ -729,11 +729,43 @@ let PrologueClient = {
 
     passport: {
 
-        getUserToken: function () {
-            return '';
+        getUserAccessToken: function () {
+            return localStorage.getItem('__user_access_token');
         },
 
-        login: function () {
+        setUserAccessToken: function (token) {
+
+            localStorage.setItem('__user_access_token', token);
+
+        },
+
+        getUserRefreshToken: function () {
+            return localStorage.getItem('__user_refresh_token');
+        },
+
+        setUserRefreshToken: function (token) {
+
+            localStorage.setItem('__user_refresh_token', token);
+
+        },
+
+        login: function (params, callBack) {
+
+
+            PrologueClient.queryToServer(params.route, {
+                'credentials': params.credentials
+            }, (serverData) => {
+
+                if (serverData.access.isLoginSuccess) {
+
+                    PrologueClient.passport.setUserAccessToken(serverData.access.tokens.access);
+                    PrologueClient.passport.setUserRefreshToken(serverData.access.tokens.refresh);
+
+                }
+
+                callBack(serverData);
+
+            });
 
         },
 
@@ -902,7 +934,7 @@ let PrologueClient = {
             });
 
             function setMetaData(serverData) {
-                
+
                 let h1 = document.getElementsByTagName('h1')[0];
 
                 document.title = serverData.metaData.title;
