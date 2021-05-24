@@ -902,9 +902,16 @@ let PrologueClient = {
             });
 
             function setMetaData(serverData) {
+                
+                let h1 = document.getElementsByTagName('h1')[0];
+
                 document.title = serverData.metaData.title;
+
                 document.querySelector('meta[name="description"]').setAttribute("content", serverData.metaData.description);
-                document.getElementsByTagName('h1')[0].innerHTML = serverData.metaData.h1;
+
+                if (h1) {
+                    h1.innerHTML = serverData.metaData.h1;
+                }
             }
 
 
