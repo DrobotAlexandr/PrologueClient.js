@@ -82,18 +82,18 @@ let PrologueClient = {
 
     getApiUrl: function (path) {
 
-        let server = this.getServer() + '!';
+        let config = PrologueClient.getConfig();
+        let server = this.getServer();
 
-        if (server.indexOf('rest-connector') + 1) {
-            path = path.replace(':', '/?action=');
-        } else if (server.indexOf('localhost') + 1) {
-            path = path.replace(':', '/') + '.json';
+        path = server + '-/' + path.replace(':', '/');
+        path = path.replace('/-/', '/');
+
+        if (config.mode === 'demo') {
+            path = path + '.json';
+            path = path.replace('/.', '.');
         }
 
-        server = server.replace('/!', '');
-        server = server.replace('!', '');
-
-        return server + '/' + path;
+        return path;
     },
 
     getServer: function () {
