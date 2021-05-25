@@ -751,21 +751,55 @@ let PrologueClient = {
 
         login: function (params, callBack) {
 
-
             PrologueClient.queryToServer(params.route, {
+                'requestType': 'authorization',
                 'credentials': params.credentials
             }, (serverData) => {
 
                 if (serverData.access.isLoginSuccess) {
 
-                    PrologueClient.passport.setUserAccessToken(serverData.access.tokens.access);
-                    PrologueClient.passport.setUserRefreshToken(serverData.access.tokens.refresh);
+                    PrologueClient.passport.setAuth(
+                        serverData.access
+                    );
+
 
                 }
 
                 callBack(serverData);
 
             });
+
+        },
+
+        logout: function (params, callBack) {
+
+            PrologueClient.queryToServer(params.route, {
+                'requestType': 'userLogout'
+            }, (serverData) => {
+
+                if (serverData.status === 'ok') {
+
+                    $prologueClientAppData.userData.isAuth = 0;
+                    PrologueClient.passport.setUserAccessToken('');
+                    PrologueClient.passport.setUserRefreshToken('');
+                    return true;
+
+                }
+
+                callBack(serverData);
+
+            });
+
+        },
+
+        setAuth: function (access) {
+
+            if (access.isLoginSuccess || access.isAuth) {
+                $prologueClientAppData.userData.isAuth = 1;
+                PrologueClient.passport.setUserAccessToken(access.tokens.access);
+                PrologueClient.passport.setUserRefreshToken(access.tokens.refresh);
+                return true;
+            }
 
         },
 
@@ -842,29 +876,26 @@ let PrologueClient = {
                 params.route = 'MainModule:loadApp';
             }
 
-            if (!params.timeOut) {
-                params.timeOut = 100;
-            }
-
             generateSessionCode();
 
-            setTimeout(() => {
+            PrologueClient.queryToServer(params.route, {'requestType': 'loadApp'}, (serverData) => {
 
-                PrologueClient.queryToServer(params.route, {'requestType': 'loadApp'}, (serverData) => {
+                if (serverData.app) {
+                    $prologueClientAppData = serverData.app;
 
-                    if (serverData.app) {
-                        $prologueClientAppData = serverData.app;
+                    PrologueClient.passport.setUserData(
+                        serverData.app.userData
+                    );
 
-                        PrologueClient.passport.setUserData(
-                            serverData.app.userData
-                        );
+                    PrologueClient.passport.setAuth(
+                        serverData.app.access
+                    );
 
-                        callBack(serverData.app);
-                    }
+                    callBack(serverData.app);
+                }
 
-                });
+            });
 
-            }, params.timeOut);
 
             function generateSessionCode() {
 
@@ -911,6 +942,10 @@ let PrologueClient = {
 
                     PrologueClient.passport.setUserData(
                         serverData.state.userData
+                    );
+
+                    PrologueClient.passport.setAuth(
+                        serverData.state.access
                     );
 
                     callBack(serverData);
