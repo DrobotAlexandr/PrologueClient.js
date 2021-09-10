@@ -685,43 +685,50 @@ let PrologueClient = {
                 return getPlatform() + getBrowser().name + getBrowser().version + getOS().name + getOS().version + getLanguage() + getTimeZone();
             }
 
-            function getDeviceName() {
+          function getDeviceName() {
 
-                let type = 'Desktop';
+            let type = 'Desktop';
 
-                if (getPlatform() === 'mobile') {
-                    type = 'Mobile';
-                }
-
-                return type + ' ' + getOS().name + ' ' + getBrowser().name;
-
+            if (getPlatform() === 'mobile') {
+              type = 'Mobile';
             }
 
-            return {
-                'id': PrologueClient.md5(getId()),
-                'name': getDeviceName(),
-                'type': getPlatform(),
-                'browser': {
-                    'name': getBrowser().name,
-                    'version': getBrowser().version
-                },
-                'os': {
-                    'name': getOS().name,
-                    'version': getOS().version
-                },
-                'locale': {
-                    'browserLanguage': getLanguage(),
-                    'appLanguage': 'ru',
-                    'timeZone': getTimeZone(),
-                    'time': getTime()
-                },
-                'theme': PrologueClient.appInterface.theme.getAppTheme(),
-                'http': {
-                    'domain': getDomain(),
-                    'url': getUrl()
-                }
+            return type + ' ' + getOS().name + ' ' + getBrowser().name;
 
-            };
+          }
+
+          function appLanguage() {
+
+            let lang = document.querySelector('html').getAttribute('lang');
+            return lang;
+
+          }
+
+          return {
+              'id': PrologueClient.md5(getId()),
+              'name': getDeviceName(),
+              'type': getPlatform(),
+              'browser': {
+                  'name': getBrowser().name,
+                  'version': getBrowser().version
+              },
+              'os': {
+                  'name': getOS().name,
+                  'version': getOS().version
+              },
+              'locale': {
+                  'browserLanguage': getLanguage(),
+                  'appLanguage': appLanguage(),
+                  'timeZone': getTimeZone(),
+                  'time': getTime()
+              },
+              'theme': PrologueClient.appInterface.theme.getAppTheme(),
+              'http': {
+                  'domain': getDomain(),
+                  'url': getUrl()
+              }
+
+          };
 
         }
 
